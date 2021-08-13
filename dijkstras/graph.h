@@ -1,16 +1,19 @@
 #include <utility>
 #include <vector>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
+//max 32-bit signed integer value
 const int int_max = 2147483647;
 
 struct node{
-    char name;
-    int originDistance = int_max;
-    char prevNode;
+    node* prevNode = nullptr;
     vector<pair<node*,int>> neighbors;
+    int originDistance = int_max;
+    char name;
+    bool visited = false;
 };
 
 
@@ -23,7 +26,8 @@ class graph{
         void initialize();
         void printNeighbors();
         void printNeighborsDistances();
+        node* dijkstras(char source, char destination);
+        node* getNode(char name);
 
         vector<node*> vertices;
-        node* origin;
 };
