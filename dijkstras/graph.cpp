@@ -98,6 +98,10 @@ node* graph::getNode(char name)
     return nullptr;
 }
 
+
+//The biggest issue right now is that we get multiple copies of nodes...
+//...in our DLL. They are deleted without checking their neighbors because...
+//...they are already marked as visited, but it would be better if they didnt enter at all in the first place
 node* graph::dijkstras(char origin, char destination)
 {
     node* start = getNode(origin);
