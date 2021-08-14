@@ -26,8 +26,10 @@ listNode* DLL::findMinDistNode()
 
     while(crawler)
     {
-        if(crawler->graphNode->originDistance < minDist)
+        if(crawler->graphNode->originDistance < minDist){
+            minDist = crawler->graphNode->originDistance;
             currMin = crawler;
+        }
         crawler = crawler->next;
     }
     return currMin;
@@ -59,6 +61,8 @@ void DLL::deleteNode(char name)
         {
             delete head;
             head = nullptr;
+
+            //debugging prints
             cout << "Current list: ";
             printList();
             cout << endl;
@@ -68,9 +72,12 @@ void DLL::deleteNode(char name)
         head = head->next;
         delete head->prev;
         head->prev = nullptr;
+
+        //debugging prints
         cout << "Current list: ";
         printList();
         cout << endl;
+
         return;
     }
     if(tail->graphNode->name == name)
@@ -78,16 +85,19 @@ void DLL::deleteNode(char name)
         tail = tail->prev;
         delete tail->next;
         tail->next = nullptr;
+
+        //debugging prints
         cout << "Current list: ";
         printList();
         cout << endl;
+
         return;
     }
 
     while(currNode != nullptr && currNode->graphNode->name != name)
         currNode = currNode->next;
     
-    if(currNode == nullptr)
+    if(!currNode)
     {
         cout << "Node not found" << endl;
         return;
@@ -96,9 +106,12 @@ void DLL::deleteNode(char name)
     currNode->next->prev = currNode->prev;
     delete currNode;
     currNode = nullptr;
+
+    //debugging prints
     cout << "Current list: ";
     printList();
     cout << endl;
+    
     return;
 }
 
@@ -110,6 +123,7 @@ void DLL::deleteList()
         crawler = head;
         head = head->next;
         delete crawler;
+        crawler = nullptr;
     }
 }
 
@@ -127,5 +141,6 @@ void DLL::printList()
         crawler = crawler->next;
     }
     cout << "null" << endl;
+    crawler = nullptr;
     return;
 }

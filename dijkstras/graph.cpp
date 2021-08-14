@@ -31,14 +31,16 @@ void graph::initialize()
     vertices[3]->neighbors.push_back(make_pair(vertices[0],5));
     vertices[3]->neighbors.push_back(make_pair(vertices[2],5));
 
-    //E neighbors: {(C,5)}
-    vertices[4]->neighbors.push_back(make_pair(vertices[2],5));
+    //E neighbors: {(C,2), (D,3)}
+    vertices[4]->neighbors.push_back(make_pair(vertices[2],2));
+    vertices[4]->neighbors.push_back(make_pair(vertices[3],3));
 }
 void graph::deleteGraph()
 {
     for(auto i : vertices)
     {
         delete i;
+        i = nullptr;
     }
 
     vertices.clear();
@@ -98,20 +100,18 @@ node* graph::getNode(char name)
     return nullptr;
 }
 
-
-//The biggest issue right now is that we get multiple copies of nodes...
-//...in our DLL. They are deleted without checking their neighbors because...
-//...they are already marked as visited, but it would be better if they didnt enter at all in the first place
+//
+//start with all nodes in the list, and then remove them as we go, visiting in sequence the node with the min distance from source
 node* graph::dijkstras(char origin, char destination)
 {
-    node* start = getNode(origin);
-    node* finish = getNode(destination);
-    if(!start)
+    node* start = nullptr;
+    node* finish = nullptr;
+    if(!(start=getNode(origin)))
     {
         cout << "Origin node " << origin << " not found" << endl;
         return nullptr;
     };
-    if(!finish)
+    if(!(finish=getNode(destination)))
     {
         cout << "Destination node " << destination << " not found" << endl;
         return nullptr;
@@ -119,10 +119,10 @@ node* graph::dijkstras(char origin, char destination)
     start->originDistance = 0;
     start->prevNode = nullptr;
 
-    int minDist = 0;
-
     DLL nodes;
-    nodes.insertNode(start);
+
+    for(auto i : vertices)
+        nodes.insertNode(i);
 
     //de-bugging prints
     cout << "BEGIN:" << endl;
@@ -134,10 +134,6 @@ node* graph::dijkstras(char origin, char destination)
     while(!(nodes.empty()))
     {
         node* currNode = nodes.findMinDistNode()->graphNode;
-        if(currNode->visited){
-            nodes.deleteNode(currNode->name);
-            continue;
-        }
             
         currNode->visited = true;
 
@@ -147,12 +143,6 @@ node* graph::dijkstras(char origin, char destination)
             //move on to the next neighbor
             if(neighbor.first->visited == true)
                 continue;
-
-            nodes.insertNode(neighbor.first);
-            cout << "Inserted: " << neighbor.first->name << endl;
-            cout << "Current list: ";
-            nodes.printList();
-            cout << endl;
             if(neighbor.first->originDistance < (neighbor.second + currNode->originDistance))
                 continue;
             
@@ -162,11 +152,10 @@ node* graph::dijkstras(char origin, char destination)
         nodes.deleteNode(currNode->name);
     }
     cout << "PATH:" << endl;
-    node* crawler = getNode(destination);
-    while(crawler != nullptr)
+    while(finish != nullptr)
     {
-        cout << crawler->name << "->";
-        crawler = crawler->prevNode;
+        cout << finish->name << "->";
+        finish = finish->prevNode;
     }
 
     return nullptr;

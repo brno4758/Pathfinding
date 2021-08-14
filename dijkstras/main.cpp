@@ -17,6 +17,6 @@ int main()
     //Graph->deleteGraph();
     //cout << Graph->vertices.empty();
     
-    Graph->dijkstras('e', 'a');
+    Graph->dijkstras('e', 'b');
     Graph->deleteGraph();
 }
