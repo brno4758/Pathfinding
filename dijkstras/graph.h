@@ -1,7 +1,7 @@
+#pragma once
 #include <utility>
 #include <vector>
-#include <limits>
-#include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -28,6 +28,7 @@ class graph{
         void printNeighborsDistances();
         node* dijkstras(char source, char destination);
         node* getNode(char name);
+        void printPath();
 
         vector<node*> vertices;
 };
