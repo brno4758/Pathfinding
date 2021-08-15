@@ -42,19 +42,32 @@ void MinHeap::minHeapifyUp(int index)
         std::cout << "Invalid index, exiting" << std::endl;
         exit(1);
     }
-    int parentIndex = parent(index);
+    int parentIndex = 0;
 
     while((parentIndex=parent(index)) >= 0 &&  heap[parentIndex] > heap[index])
     {
         swap(heap[parentIndex], heap[index]);
         index = parentIndex;
-        
     }
     
 }
 
 void MinHeap::minHeapifyDown(int index)
 {
+    if(index >= currentSize || index < 0)
+    {
+        std::cout << "Invalid index, exiting" << std::endl;
+        exit(1);
+    }
+    int currIndex = index;
+    int l = left(index);
+    int r = right(index);
+    int minIndex = 0;
+
+    if(heap[index] > heap[l])
+        minIndex = l;
+    if(heap[index] > heap[r])
+        minIndex = r;
 
 }
 
