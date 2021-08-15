@@ -1,6 +1,24 @@
 #include "list.h"
 #include <iostream>
 
+DLL::DLL():head(nullptr), tail(nullptr)
+{
+}
+DLL::~DLL()
+{
+    cout << endl << "deleting list" << endl;
+    listNode* crawler = head;
+    while(head)
+    {
+        crawler = head;
+        head = head->next;
+        delete crawler;
+    }
+    head = nullptr;
+    tail = nullptr;
+    crawler = nullptr;
+}
+
 listNode* DLL::findNode(char name)
 {
     listNode* crawler = head;
@@ -99,7 +117,7 @@ void DLL::deleteNode(char name)
     
     if(!currNode)
     {
-        cout << "Node not found" << endl;
+        cout << "Node not found, exiting" << endl;
         return;
     }
     currNode->prev->next = currNode->next;
@@ -113,18 +131,6 @@ void DLL::deleteNode(char name)
     cout << endl;
     
     return;
-}
-
-void DLL::deleteList()
-{
-    listNode* crawler = head;
-    while(head)
-    {
-        crawler = head;
-        head = head->next;
-        delete crawler;
-        crawler = nullptr;
-    }
 }
 
 bool DLL::empty()

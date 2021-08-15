@@ -10,13 +10,14 @@ struct listNode{
 
 class DLL{
     public:
-        listNode* head = nullptr;
-        listNode* tail = nullptr;
+        DLL();
+        ~DLL();
+        listNode* head;
+        listNode* tail;
         listNode* findNode(char name);
         listNode* findMinDistNode();
         void insertNode(node* node);
         void deleteNode(char name);
-        void deleteList();
         bool empty();
         void printList();
 };

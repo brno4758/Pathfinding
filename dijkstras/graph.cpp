@@ -119,6 +119,8 @@ node* graph::dijkstras(char origin, char destination)
     start->originDistance = 0;
     start->prevNode = nullptr;
 
+    //Instead of a DLL, could use a priority queue instead
+    //or minHeap?? Look up is O(n), insertion is O(1) for DLL right now
     DLL nodes;
 
     for(auto i : vertices)
