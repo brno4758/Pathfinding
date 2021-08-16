@@ -1,9 +1,13 @@
 #include "minHeap.h"
 #include <iostream>
 
-MinHeap::MinHeap(int capacity):capacity(capacity)
+
+
+//Houstin we have a bug.
+//Insert sequence 14 42 66 3 49 21 98 71 93 1 59 94 52 19 29
+//Output sequence 1 3 14 19 21 42 49 29 52 59 66 71 93 94 98
+MinHeap::MinHeap(int capacity):capacity(capacity),heap(new int[capacity]), currentSize(0)
 {
-    heap = new int[capacity];
 }
 
 MinHeap::~MinHeap()
@@ -14,7 +18,7 @@ MinHeap::~MinHeap()
 
 void MinHeap::push(int k)
 {
-    if(currentSize = capacity)
+    if(currentSize == capacity)
     {
         std::cout << "current size is at capacity" << std::endl;
         return;
@@ -33,7 +37,17 @@ int MinHeap::pop()
 }
 void MinHeap::printHeap()
 {
-
+    for(auto i = 0; i < currentSize; i++)
+    {
+        int l = left(i);
+        int r = right(i);
+        std::cout << "Node: " << heap[i];
+        if(l < currentSize)
+            std::cout << " Left Child: " << heap[l];
+        if(r < currentSize)
+            std::cout << " Right Child: " << heap[r];
+        std::cout << '\n';
+    }
 }
 void MinHeap::minHeapifyUp(int index)
 {
@@ -43,10 +57,7 @@ void MinHeap::minHeapifyUp(int index)
         exit(1);
     }
     if(currentSize == 1)
-    {
-        std::cout << "1 element in heap, no need to repair" << std::endl;
         return;
-    }
 
     int parentIndex = 0;
     while((parentIndex=parent(index)) >= 0 &&  heap[parentIndex] > heap[index])
@@ -67,10 +78,8 @@ void MinHeap::minHeapifyDown(int index)
         exit(1);
     }
     if(currentSize == 0)
-    {
-        std::cout << "Heap is empty, no need to fix" << std::endl;
         return;
-    }
+    
 
 
     int minIndex = 0;
@@ -80,6 +89,8 @@ void MinHeap::minHeapifyDown(int index)
         int r = right(index);
         minIndex = -1;
 
+        //find a better way to do this
+        //What if I sum the bools and then use a switch statement
         if(l < currentSize && heap[index] > heap[l])
             minIndex = l;
         if(r < currentSize && heap[index] > heap[r])
@@ -99,4 +110,9 @@ void MinHeap::swap(int &x, int &y)
     int temp = x;
     x = y;
     y = temp;
+}
+
+auto MinHeap::getSize()
+{
+    return currentSize;
 }

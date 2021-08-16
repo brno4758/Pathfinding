@@ -8,6 +8,7 @@ class MinHeap{
         int pop();
         int peek() { return heap[0]; }
         void printHeap();
+        auto getSize();
     private:
         int *heap;
         int capacity;

@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <iostream>
 #include "list.h"
+#include "../minHeap/minHeap.h"
 
 
 void graph::initialize()
@@ -121,8 +122,9 @@ node* graph::dijkstras(char origin, char destination)
 
     //Instead of a DLL, could use a priority queue instead
     //or minHeap?? Look up is O(n), insertion is O(1) for DLL right now
+    //Getting min value from minHeap is O(1), general look up is O(logn), insertion is O(logn), deletion is O(logn) 
     DLL nodes;
-
+    MinHeap nodes2(vertices.size());
     for(auto i : vertices)
         nodes.insertNode(i);
 
