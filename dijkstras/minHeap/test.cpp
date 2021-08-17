@@ -1,27 +1,32 @@
 #include <iostream>
-#include "minHeap.h"
 #include <random>
+#include "minHeap.h"
 
 using namespace std;
 
-//Houstin we have a bug.
-//Insert sequence 14 42 66 3 49 21 98 71 93 1 59 94 52 19 29
-//Output sequence 1 3 14 19 21 42 49 29 52 59 66 71 93 94 98
-
-//Push function functions correctly for the above input sequence
 int main()
 {
+    int numElements = 100;
+    int arr[numElements];
+    int arr2[numElements];
     srand(time(NULL));
-
-    MinHeap heap(15);
-
-    int currNum = 0;
-    while(currNum != -1)
+    for(int i = 0; i < numElements; i++)
     {
-        cin >> currNum;
-        heap.push(currNum);
-
-        heap.printHeap();
-        cout << "--------------------------" << "\n";
+        arr[i] = rand() % 100;
     }
+    MinHeap heap(numElements);
+    for(auto i : arr)
+    {
+        cout << i << ", ";
+        heap.push(i);   
+    }
+    cout << '\n';
+    for(int i = 0; i < numElements; i++)
+    {
+        arr2[i] = heap.pop();
+    }
+
+    for(auto i : arr2)
+        cout << i << ", ";
+    cout << '\n';
 }
