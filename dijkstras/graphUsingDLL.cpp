@@ -1,6 +1,6 @@
 #include "graph.h"
 #include <iostream>
-#include "list.h"
+#include "DLL.h"
 #include "../minHeap/minHeapInt.h"
 
 
