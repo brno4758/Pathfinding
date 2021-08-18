@@ -9,6 +9,7 @@ class MinHeap{
         int peek() { return heap[0]; }
         void printHeap();
         auto getSize();
+        bool empty();
     private:
         int *heap;
         int capacity;

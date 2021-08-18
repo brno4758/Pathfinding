@@ -1,7 +1,7 @@
 #include "graph.h"
 #include <iostream>
 #include "list.h"
-#include "../minHeap/minHeap.h"
+#include "../minHeap/minHeapInt.h"
 
 
 void graph::initialize()

@@ -1,4 +1,4 @@
-#include "minHeap.h"
+#include "minHeapInt.h"
 #include <iostream>
 
 MinHeap::MinHeap(int capacity):capacity(capacity),heap(new int[capacity]), currentSize(0)
@@ -121,4 +121,9 @@ void MinHeap::swap(int &x, int &y)
 auto MinHeap::getSize()
 {
     return currentSize;
+}
+
+bool MinHeap::empty()
+{
+    return currentSize == 0;
 }

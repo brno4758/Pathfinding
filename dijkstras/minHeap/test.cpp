@@ -1,32 +1,25 @@
 #include <iostream>
 #include <random>
-#include "minHeap.h"
+#include "minHeapNode.h"
 
 using namespace std;
 
 int main()
 {
-    int numElements = 100;
-    int arr[numElements];
-    int arr2[numElements];
     srand(time(NULL));
-    for(int i = 0; i < numElements; i++)
+    MinHeap heap(50);
+
+    for(int i = 0; i < 50; i++)
     {
-        arr[i] = rand() % 100;
-    }
-    MinHeap heap(numElements);
-    for(auto i : arr)
-    {
-        cout << i << ", ";
-        heap.push(i);   
-    }
-    cout << '\n';
-    for(int i = 0; i < numElements; i++)
-    {
-        arr2[i] = heap.pop();
+        node* newNode = new node;
+        newNode->originDistance = rand() % 100;
+        heap.push(newNode);
     }
 
-    for(auto i : arr2)
-        cout << i << ", ";
-    cout << '\n';
+    for(int i = 0; i < 50; i++)
+    {
+        node* temp = heap.pop();
+        cout << temp->originDistance << " ";
+        delete temp;
+    }
 }
