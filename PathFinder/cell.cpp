@@ -16,12 +16,17 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 {
     Q_UNUSED(widget);
     Q_UNUSED(item);
+    if(visited_)
+        painter->setBrush(visited);
+    else
+        painter->setBrush(unvisited);
     painter->drawRect(x_+(x_*width_), y_+(y_*width_),width_,width_);
 }
 
 void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << x_ << "," << y_;
+    emit cell_selected(*this);
 
 }
 
@@ -59,4 +64,44 @@ Cell* Grid::get_cell(short x, short y)
         exit(1);
     }
     return &grid_[y][x];
+}
+
+std::vector<Cell*> Grid::get_neighbors(Cell& c) const
+{
+    short x = c.get_x();
+    short y = c.get_y();
+    std::vector<Cell*> v;
+    if( (y+1) < rows_ ) //Up
+        v.push_back(&grid_[y+1][x]);
+    if( (x+1) < cols_ ) //Right
+        v.push_back(&grid_[y][x+1]);
+    if( (y-1) >= 0 ) //Down
+        v.push_back(&grid_[y-1][x]);
+    if( (x-1) >= 0 ) //Left
+        v.push_back(&grid_[y][x-1]);
+
+    return v;
+}
+
+bool Grid::depth_first_search(Cell& source, Cell& dest)
+{
+    qDebug() << "searching on:" << source.get_x() << "," << source.get_y();
+    source.set_visited(true);
+    source.update();
+    QApplication::processEvents();
+    Sleep(500);
+    if(source == dest)
+        return true;
+
+    bool flag = false;
+    for(Cell*& i : get_neighbors(source))
+    {
+        if(i->get_visited())
+            continue;
+        flag = depth_first_search(*i, dest);
+        if(flag)
+            break;
+    }
+
+    return flag;
 }

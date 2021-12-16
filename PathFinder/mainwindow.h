@@ -20,8 +20,11 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
     Grid* grid_;
+    Cell* source_;
+    Cell* dest_;
 
 private slots:
-    void on_cell_selected(Cell* c);
+    void on_cell_selected(Cell& c);
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H
