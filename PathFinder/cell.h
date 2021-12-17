@@ -7,6 +7,7 @@ enum class cellType{Empty, Wall};
 #include <QtWidgets>
 #include <QDebug>
 #include <vector>
+#include <queue> //WRITE YOUR OWN IMPLEMENTATION LAZY!
 
 const QColor selected(255,0,0);
 const QColor visited(255,0,0);
@@ -58,6 +59,7 @@ public:
     Cell* get_cell(short x, short y);
     std::vector<Cell*> get_neighbors(Cell& c) const;
     bool depth_first_search(Cell& source, Cell& dest);
+    bool breadth_first_search(Cell& source, Cell& dest);
 
     Grid() = delete;
 private:

@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     cell.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    queue.cpp
 
 HEADERS += \
     cell.h \
-    mainwindow.h
+    mainwindow.h \
+    queue.h
 
 FORMS += \
     mainwindow.ui

@@ -105,3 +105,17 @@ bool Grid::depth_first_search(Cell& source, Cell& dest)
 
     return flag;
 }
+
+bool Grid::breadth_first_search(Cell& source, Cell& dest){
+    std::queue<Cell*> q;
+    q.push(source);
+
+    while(!q.empty())
+    {
+        Cell* currCell = q.front();
+        for(Cell*& i : get_neighbors(*currCell))
+        {
+            q.push(i);
+        }
+    }
+}
