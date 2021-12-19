@@ -24,16 +24,21 @@ public:
     void set_x(short x) {x_ = x;}
     void set_y(short y) {y_ = y;}
     void set_cell_type(CellType type) {type_ = type;}
+    void set_distance(short dist) {distance_ = dist;}
+    void set_prev(Cell*& prev) {prev_ = prev;}
 
     short get_x() const {return x_;}
     short get_y() const {return y_;}
     CellType get_cell_type() const {return type_;}
     static short get_width() {return width_;}
+    short get_distance() const {return distance_;}
+    Cell* get_prev() const {return prev_;}
 
     QRectF boundingRect() const override; //adds clickable area to the object of the ui
     QPainterPath shape() const override; //allows us to draw standard shapes
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override; //allows us to add color to object we are drawing
     bool operator==(const Cell& c) const {return x_ == c.x_ && y_ == c.y_;}
+    bool operator<(const Cell& c) const {return distance_ < c.distance_;}
 
 private:
     const static short width_ = 20;

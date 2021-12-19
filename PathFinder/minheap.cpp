@@ -1,5 +1,9 @@
 #include "minheap.h"
-//MinHeap() : heap_(new Cell[50]), size_(0), capacity_(0) {};
+
+MinHeap::~MinHeap()
+{
+    delete[] heap_;
+}
 
 Cell* MinHeap::peek()
 {
@@ -7,37 +11,48 @@ Cell* MinHeap::peek()
 }
 
 
-Cell* MinHeap::pop()
+Cell* MinHeap::pop() //This is where the error is
 {
+    if(size_ == 0)
+        return nullptr;
     swap(0, size_-1);
-    minHeapifyDown(0);
     size_--;
+    minHeapifyDown(0);
+    return heap_[size_ + 1];
 }
 
 bool MinHeap::insert(Cell* element)
 {
     if(size_ == capacity_)
-        return false;
+        doubleSize();
 
     heap_[size_] = element;
+    minHeapifyUp(size_);
     size_++;
     return true;
 }
 
 void MinHeap::minHeapifyUp(short index)
 {
-    while(parent(index) >= 0 && heap_[index] > heap_[parent(index)])
+    while(parent(index) >= 0 && *heap_[index] < *heap_[parent(index)])
     {
         swap(index, parent(index));
+        index = parent(index);
     }
 }
 
 
 void MinHeap::minHeapifyDown(short index)
 {
-    while(parent(index) >= 0 && heap_[index] > heap_[parent(index)])
+    short smallest = index;
+    if(leftChild(index) < size_ && *heap_[leftChild(index)] < *heap_[smallest])
+        smallest = leftChild(index);
+    if(rightChild(index) < size_ && *heap_[rightChild(index)] < *heap_[smallest])
+        smallest = rightChild(index);
+    if(smallest != index)
     {
-      swap(index, parent(index));
+        swap(smallest, index);
+        minHeapifyDown(smallest);
     }
 }
 
@@ -46,4 +61,17 @@ void MinHeap::swap(short indexa, short indexb)
     Cell* temp = heap_[indexa];
     heap_[indexa] = heap_[indexb];
     heap_[indexb] = temp;
+}
+
+void MinHeap::doubleSize()
+{
+    Cell* newArr[capacity_*2];
+
+    for(short i = 0; i < capacity_; i++)
+    {
+        newArr[i] = heap_[i];
+    }
+    capacity_ *= 2;
+    delete[] heap_;
+    heap_ = newArr;
 }

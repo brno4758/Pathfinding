@@ -102,15 +102,31 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
 
 bool Grid::dijkstras(Cell& source, Cell& dest)
 {
+    qDebug() << "Source cell is " << source.get_x() << "," << source.get_y();
     Cell* currCell = nullptr;
     MinHeap heap;
     heap.insert(&source);
-    while(!heap.empty())
-    {
-        currCell = heap.pop();
-
-
-
-    }
-
+    source.set_distance(0);
+    qDebug() << "Source peek cell is " << heap.peek()->get_x() << heap.peek()->get_y();
+    currCell = heap.pop();
+    qDebug() << "Source pop cell is " << currCell->get_x() << currCell->get_y();
+//    while(!heap.empty())
+//    {
+//        currCell = heap.pop();
+//        qDebug() << "CurrCell is " << currCell->get_x() << "," << currCell->get_y();
+//        for(Cell*& i : get_neighbors(*currCell))
+//        {
+//            if(i->get_cell_type() == CellType::Visited || i->get_distance() < currCell->get_distance() + distanceUnit)
+//                continue;
+//            i->set_cell_type(CellType::Visited);
+//            i->set_distance(currCell->get_distance() + distanceUnit);
+//            i->set_prev(currCell);
+//            i->update();
+//            QApplication::processEvents();
+//            heap.insert(i);
+//            if(*i == dest)
+//                return true;
+//        }
+//    }
+    return false;
 }
