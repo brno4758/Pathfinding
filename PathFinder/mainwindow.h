@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "cell.h"
+#include "grid.h"
+#include "minheap.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -25,6 +27,9 @@ private:
 
 private slots:
     void on_cell_selected(Cell& c);
-    void on_pushButton_clicked();
+    void on_DFSButton_clicked();
+    void on_BFSButton_clicked();
+    void on_resetButton_clicked();
+    void on_DijkstraButton_clicked();
 };
 #endif // MAINWINDOW_H

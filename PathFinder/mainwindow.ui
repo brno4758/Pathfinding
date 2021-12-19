@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>674</width>
-    <height>564</height>
+    <width>1027</width>
+    <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,17 +18,17 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
-      <width>655</width>
-      <height>485</height>
+      <y>30</y>
+      <width>1011</width>
+      <height>591</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="DFSButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>490</y>
+      <y>630</y>
       <width>80</width>
       <height>22</height>
      </rect>
@@ -37,14 +37,53 @@
      <string>DFS</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="BFSButton">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>630</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>BFS</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="resetButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reset</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DijkstraButton">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>630</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dijkstra</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>674</width>
-     <height>21</height>
+     <width>1027</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

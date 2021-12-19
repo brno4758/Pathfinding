@@ -10,14 +10,16 @@ CONFIG += c++11
 
 SOURCES += \
     cell.cpp \
+    grid.cpp \
     main.cpp \
     mainwindow.cpp \
-    queue.cpp
+    minheap.cpp
 
 HEADERS += \
     cell.h \
+    grid.h \
     mainwindow.h \
-    queue.h
+    minheap.h
 
 FORMS += \
     mainwindow.ui

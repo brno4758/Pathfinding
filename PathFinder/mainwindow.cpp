@@ -5,20 +5,20 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , scene(new QGraphicsScene)
-    , grid_(new Grid(23,31))
+    , grid_(new Grid(28,48)) //Size of the grid set here
     , source_(nullptr)
     , dest_(nullptr)
 {
     ui->setupUi(this);
     QGraphicsView *gridView = ui->graphicsView;
+
     //Set up the scene that the playing field will be displayed on
     gridView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    gridView->verticalScrollBar()->blockSignals(true);
     gridView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    gridView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    gridView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    gridView->horizontalScrollBar()->blockSignals(true);
     gridView->setScene(scene);
     gridView->setSceneRect(0,0,gridView->frameSize().width(),gridView->frameSize().height());
-
 
     for(short i = 0; i < grid_->get_num_rows(); i++)
         for(short j = 0; j < grid_->get_num_cols(); j++)
@@ -31,9 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    //delete grid_;
 }
-
 
 void MainWindow::on_cell_selected(Cell& c)
 {
@@ -47,13 +45,9 @@ void MainWindow::on_cell_selected(Cell& c)
         source_ = &c;
         dest_ = nullptr;
     }
-
-    for(const auto &i : grid_->get_neighbors(c))
-        qDebug() << "Neighbor: " << i->get_x() << "," << i->get_y();
 }
 
-
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_DFSButton_clicked()
 {
     if(!source_ || !dest_)
     {
@@ -62,7 +56,48 @@ void MainWindow::on_pushButton_clicked()
         error.exec();
         return;
     }
-
+    ui->resetButton->setEnabled(false);
     grid_->depth_first_search(*source_, *dest_);
+    ui->resetButton->setEnabled(true);
+}
+
+void MainWindow::on_BFSButton_clicked()
+{
+    if(!source_ || !dest_)
+    {
+        QMessageBox error;
+        error.setText("Must have both a source and destination cell selected");
+        error.exec();
+        return;
+    }
+    ui->resetButton->setEnabled(false);
+    grid_->breadth_first_search(*source_, *dest_);
+    ui->resetButton->setEnabled(true);
+}
+
+void MainWindow::on_resetButton_clicked()
+{
+    source_ = nullptr;
+    dest_ = nullptr;
+    for(short i = 0; i < grid_->get_num_rows(); i++)
+        for(short j = 0; j < grid_->get_num_cols(); j++)
+        {
+            grid_->get_cell(j,i)->set_cell_type(CellType::Unvisited);
+
+        }
+    scene->update();
+}
+
+
+void MainWindow::on_DijkstraButton_clicked()
+{
+    if(!source_ || !dest_)
+    {
+        QMessageBox error;
+        error.setText("Must have both a source and destination cell selected");
+        error.exec();
+        return;
+    }
+    grid_->dijkstras(*source_, *dest_);
 }
 
