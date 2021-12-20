@@ -22,8 +22,8 @@ public:
 private:
     void doubleSize();
     Cell** heap_;
-    short size_;
-    short capacity_;
+    int size_;
+    int capacity_;
 
 };
 

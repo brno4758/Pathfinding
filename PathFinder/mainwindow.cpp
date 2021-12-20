@@ -59,6 +59,15 @@ void MainWindow::on_DFSButton_clicked()
     ui->resetButton->setEnabled(false);
     grid_->depth_first_search(*source_, *dest_);
     ui->resetButton->setEnabled(true);
+    Cell* crawler = dest_;
+    while(crawler != nullptr)
+    {
+        Sleep(50);
+        crawler->set_cell_type(CellType::Path);
+        crawler->update();
+        QApplication::processEvents();
+        crawler = crawler->get_prev();
+    }
 }
 
 void MainWindow::on_BFSButton_clicked()
@@ -79,10 +88,14 @@ void MainWindow::on_resetButton_clicked()
 {
     source_ = nullptr;
     dest_ = nullptr;
+    Cell* c = nullptr;
     for(short i = 0; i < grid_->get_num_rows(); i++)
         for(short j = 0; j < grid_->get_num_cols(); j++)
         {
             grid_->get_cell(j,i)->set_cell_type(CellType::Unvisited);
+            grid_->get_cell(j,i)->set_prev(c);
+            grid_->get_cell(j,i)->set_distance(SHRT_MAX);
+            grid_->get_cell(j,i)->set_in_queue(false);
 
         }
     scene->update();
@@ -99,5 +112,14 @@ void MainWindow::on_DijkstraButton_clicked()
         return;
     }
     grid_->dijkstras(*source_, *dest_);
+    Cell* crawler = dest_;
+    while(crawler != nullptr)
+    {
+        Sleep(50);
+        crawler->set_cell_type(CellType::Path);
+        crawler->update();
+        QApplication::processEvents();
+        crawler = crawler->get_prev();
+    }
 }
 

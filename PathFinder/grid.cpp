@@ -65,6 +65,7 @@ bool Grid::depth_first_search(Cell& source, Cell& dest)
     {
         if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall)
             continue;
+        i->set_prev(&source);
         flag = depth_first_search(*i, dest);
         if(flag)
             break;
@@ -102,31 +103,35 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
 
 bool Grid::dijkstras(Cell& source, Cell& dest)
 {
-    qDebug() << "Source cell is " << source.get_x() << "," << source.get_y();
+    //Could represent inQueue_ as an array instead of a bool carried around by each cell
+    //If this ends up being only algo that uses inQueue_, switch to the array of bools
+
+    //Maybe I can just do one big sweep of all cells, calculating their distance from source and pushing them onto the heap, then uusing that to traverse
+
     Cell* currCell = nullptr;
     MinHeap heap;
     heap.insert(&source);
     source.set_distance(0);
-    qDebug() << "Source peek cell is " << heap.peek()->get_x() << heap.peek()->get_y();
-    currCell = heap.pop();
-    qDebug() << "Source pop cell is " << currCell->get_x() << currCell->get_y();
-//    while(!heap.empty())
-//    {
-//        currCell = heap.pop();
-//        qDebug() << "CurrCell is " << currCell->get_x() << "," << currCell->get_y();
-//        for(Cell*& i : get_neighbors(*currCell))
-//        {
-//            if(i->get_cell_type() == CellType::Visited || i->get_distance() < currCell->get_distance() + distanceUnit)
-//                continue;
-//            i->set_cell_type(CellType::Visited);
-//            i->set_distance(currCell->get_distance() + distanceUnit);
-//            i->set_prev(currCell);
-//            i->update();
-//            QApplication::processEvents();
-//            heap.insert(i);
-//            if(*i == dest)
-//                return true;
-//        }
-//    }
+    source.set_prev(currCell);
+    while(!heap.empty())
+    {
+        Sleep(25);
+        currCell = heap.pop();
+        currCell->set_cell_type(CellType::Visited);
+        currCell->update();
+        QApplication::processEvents();
+        qDebug() << "My distance from source is: " << currCell->get_distance();
+        for(Cell*& i : get_neighbors(*currCell))
+        {
+            if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall || i->get_enqueued() || i->get_distance() < currCell->get_distance() + distanceUnit)
+                continue;
+            i->set_enqueued(true);
+            i->set_distance(currCell->get_distance() + distanceUnit);
+            i->set_prev(currCell);
+            heap.insert(i);
+            if(*i == dest)
+                return true;
+        }
+    }
     return false;
 }

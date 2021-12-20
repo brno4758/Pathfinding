@@ -28,6 +28,9 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     case(CellType::Unvisited):
         painter->setBrush(unvisitedColor);
         break;
+    case(CellType::Path):
+        painter->setBrush(pathColor);
+        break;
     default:
         painter->setBrush(unvisitedColor);
     }

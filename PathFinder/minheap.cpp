@@ -11,14 +11,14 @@ Cell* MinHeap::peek()
 }
 
 
-Cell* MinHeap::pop() //This is where the error is
+Cell* MinHeap::pop()
 {
     if(size_ == 0)
         return nullptr;
     swap(0, size_-1);
     size_--;
     minHeapifyDown(0);
-    return heap_[size_ + 1];
+    return heap_[size_];
 }
 
 bool MinHeap::insert(Cell* element)
@@ -65,9 +65,10 @@ void MinHeap::swap(short indexa, short indexb)
 
 void MinHeap::doubleSize()
 {
-    Cell* newArr[capacity_*2];
+    qDebug() << "size is :" << size_;
+    Cell** newArr = new Cell*[capacity_*2];
 
-    for(short i = 0; i < capacity_; i++)
+    for(int i = 0; i < capacity_; i++)
     {
         newArr[i] = heap_[i];
     }
