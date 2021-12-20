@@ -3,6 +3,8 @@
 
 #include "cell.h"
 #include "minheap.h"
+#include <queue>
+
 class Grid
 {
 public:
@@ -12,6 +14,8 @@ public:
     short get_num_cols() const {return cols_;}
     Cell* get_cell(short x, short y);
     std::vector<Cell*> get_neighbors(Cell& c) const;
+
+
     bool depth_first_search(Cell& source, Cell& dest);
     bool breadth_first_search(Cell& source, Cell& dest);
     bool dijkstras(Cell& Source, Cell& dest);

@@ -107,31 +107,42 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
     //If this ends up being only algo that uses inQueue_, switch to the array of bools
 
     //Maybe I can just do one big sweep of all cells, calculating their distance from source and pushing them onto the heap, then uusing that to traverse
+    //No because the point is to relax the edges as we go, not all at once
 
-    Cell* currCell = nullptr;
-    MinHeap heap;
-    heap.insert(&source);
+    //The issue I am running into is this:
+    //Once I enqueue a node into the heap, its order is set
+    //However, if I find a shorter path to that node then I want to update that nodes distance
+    //But to do that I would need to enqueue the node again
+    //But that leads to a lot of cells being placed on the heap again
+
+
+    std::priority_queue<Cell*, std::vector<Cell*>, Comparator> q;
+    q.push(&source);
     source.set_distance(0);
-    source.set_prev(currCell);
-    while(!heap.empty())
+    source.set_prev(nullptr);
+    Cell* currCell = nullptr;
+    while(!q.empty())
     {
-        Sleep(25);
-        currCell = heap.pop();
-        currCell->set_cell_type(CellType::Visited);
-        currCell->update();
-        QApplication::processEvents();
-        qDebug() << "My distance from source is: " << currCell->get_distance();
-        for(Cell*& i : get_neighbors(*currCell))
-        {
-            if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall || i->get_enqueued() || i->get_distance() < currCell->get_distance() + distanceUnit)
-                continue;
-            i->set_enqueued(true);
-            i->set_distance(currCell->get_distance() + distanceUnit);
-            i->set_prev(currCell);
-            heap.insert(i);
-            if(*i == dest)
-                return true;
+                Sleep(25);
+                currCell = q.top();
+                q.pop();
+                currCell->set_cell_type(CellType::Visited);
+                currCell->update();
+                QApplication::processEvents();
+                qDebug() << "My distance from source is: " << currCell->get_distance();
+                for(Cell*& i : get_neighbors(*currCell))
+                {
+                    if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall)
+                        continue;
+                    if(i->get_distance() > currCell->get_distance() + distanceUnit)
+                    {
+                        i->set_distance(currCell->get_distance() + distanceUnit);
+                        i->set_prev(currCell);
+                        q.push(i);
+                    }
+                    if(*i == dest)
+                        return true;
+                }
         }
-    }
-    return false;
+            return false;
 }

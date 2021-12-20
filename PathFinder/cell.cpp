@@ -31,6 +31,12 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     case(CellType::Path):
         painter->setBrush(pathColor);
         break;
+    case(CellType::Source):
+        painter->setBrush(sourceColor);
+        break;
+    case(CellType::Destination):
+        painter->setBrush(destColor);
+        break;
     default:
         painter->setBrush(unvisitedColor);
     }

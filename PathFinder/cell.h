@@ -1,6 +1,6 @@
 #ifndef CELL_H
 #define CELL_H
-enum class CellType{Visited, Unvisited, Wall, Path};
+enum class CellType{Visited, Unvisited, Wall, Path, Source, Destination};
 
 #include <QColor>
 #include <QGraphicsItem>
@@ -13,14 +13,16 @@ const QColor wallColor(0,0,0);
 const QColor visitedColor(255,0,0);
 const QColor unvisitedColor(255,255,255);
 const QColor pathColor(0,255,0);
+const QColor sourceColor(0,0,255);
+const QColor destColor(0,0,255);
 
 class Cell : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 
 public:
-    Cell() : type_(CellType::Unvisited), x_(0), y_(0), distance_(SHRT_MAX), prev_(nullptr), inQueue_(false) {};
-    Cell(short x, short y) : type_(CellType::Unvisited), x_(x), y_(y), distance_(SHRT_MAX), prev_(nullptr), inQueue_(false) {};
+    Cell() : type_(CellType::Unvisited), x_(0), y_(0), distance_(SHRT_MAX), prev_(nullptr), enqueued_(false) {};
+    Cell(short x, short y) : type_(CellType::Unvisited), x_(x), y_(y), distance_(SHRT_MAX), prev_(nullptr), enqueued_(false) {};
 
     void set_x(short x) {x_ = x;}
     void set_y(short y) {y_ = y;}
@@ -41,6 +43,7 @@ public:
     QPainterPath shape() const override; //allows us to draw standard shapes
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override; //allows us to add color to object we are drawing
     bool operator==(const Cell& c) const {return x_ == c.x_ && y_ == c.y_;}
+    bool operator()(const Cell& c1, const Cell& c2) const {return c1.distance_ < c2.distance_;}
     bool operator<(const Cell& c) const {return distance_ < c.distance_;}
 
 private:
@@ -56,6 +59,14 @@ private:
 
 signals:
     void cell_selected(Cell& c);
+};
+
+class Comparator {
+public:
+    bool operator()(const Cell* a, const Cell* b)
+    {
+        return (a->get_distance() > b->get_distance());
+    }
 };
 
 #endif // CELL_H

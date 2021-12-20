@@ -37,12 +37,23 @@ void MainWindow::on_cell_selected(Cell& c)
 {
     if(!source_){
         source_ = &c;
+        source_->set_cell_type(CellType::Source);
+        source_->update();
     }
     else if(!dest_){
         dest_ = &c;
+        dest_->set_cell_type(CellType::Destination);
+        dest_->update();
     }
     else if(source_ && dest_){
+        source_->set_cell_type(CellType::Unvisited);
+        dest_->set_cell_type(CellType::Unvisited);
+        source_->update();
+        dest_->update();
+
         source_ = &c;
+        source_->set_cell_type(CellType::Source);
+        source_->update();
         dest_ = nullptr;
     }
 }
@@ -82,6 +93,15 @@ void MainWindow::on_BFSButton_clicked()
     ui->resetButton->setEnabled(false);
     grid_->breadth_first_search(*source_, *dest_);
     ui->resetButton->setEnabled(true);
+    Cell* crawler = dest_;
+    while(crawler != nullptr)
+    {
+        Sleep(50);
+        crawler->set_cell_type(CellType::Path);
+        crawler->update();
+        QApplication::processEvents();
+        crawler = crawler->get_prev();
+    }
 }
 
 void MainWindow::on_resetButton_clicked()
@@ -95,7 +115,7 @@ void MainWindow::on_resetButton_clicked()
             grid_->get_cell(j,i)->set_cell_type(CellType::Unvisited);
             grid_->get_cell(j,i)->set_prev(c);
             grid_->get_cell(j,i)->set_distance(SHRT_MAX);
-            grid_->get_cell(j,i)->set_in_queue(false);
+            grid_->get_cell(j,i)->set_enqueued(false);
 
         }
     scene->update();
