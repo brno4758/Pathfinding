@@ -114,6 +114,9 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
     //However, if I find a shorter path to that node then I want to update that nodes distance
     //But to do that I would need to enqueue the node again
     //But that leads to a lot of cells being placed on the heap again
+    //The issue was i->get_distance() <= currCell->get_distance() + distanceUnit
+    //Before it was just i->get_distance() < currCell->get_distance() + distanceUnit
+    //So if the new distance was equal we would push the node onto the heap again
 
 
     std::priority_queue<Cell*, std::vector<Cell*>, Comparator> q;
@@ -132,14 +135,14 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
                 qDebug() << "My distance from source is: " << currCell->get_distance();
                 for(Cell*& i : get_neighbors(*currCell))
                 {
-                    if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall)
+                    if(i->get_cell_type() == CellType::Visited || //Visited Node
+                       i->get_cell_type() == CellType::Wall ||   //Wall Node
+                       i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
                         continue;
-                    if(i->get_distance() > currCell->get_distance() + distanceUnit)
-                    {
-                        i->set_distance(currCell->get_distance() + distanceUnit);
-                        i->set_prev(currCell);
-                        q.push(i);
-                    }
+
+                    i->set_distance(currCell->get_distance() + distanceUnit);
+                    i->set_prev(currCell);
+                    q.push(i);
                     if(*i == dest)
                         return true;
                 }
