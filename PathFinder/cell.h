@@ -21,39 +21,39 @@ class Cell : public QObject, public QGraphicsItem
     Q_OBJECT
 
 public:
-    Cell() : type_(CellType::Unvisited), x_(0), y_(0), distance_(SHRT_MAX), prev_(nullptr), enqueued_(false) {};
-    Cell(short x, short y) : type_(CellType::Unvisited), x_(x), y_(y), distance_(SHRT_MAX), prev_(nullptr), enqueued_(false) {};
+    Cell() : type_(CellType::Unvisited), x_(0), y_(0), distanceSource_(SHRT_MAX), prev_(nullptr) {};
+    Cell(short x, short y) : type_(CellType::Unvisited), x_(x), y_(y), distanceSource_(SHRT_MAX), prev_(nullptr) {};
 
     void set_x(short x) {x_ = x;}
     void set_y(short y) {y_ = y;}
     void set_cell_type(CellType type) {type_ = type;}
-    void set_distance(short dist) {distance_ = dist;}
+    void set_distance(short dist) {distanceSource_ = dist;}
     void set_prev(Cell* prev) {prev_ = prev;}
-    void set_enqueued(bool flag) {enqueued_ = flag;}
+    void set_dest_distance(short dist) {distanceDest_ = dist;}
 
     short get_x() const {return x_;}
     short get_y() const {return y_;}
     CellType get_cell_type() const {return type_;}
     static short get_width() {return width_;}
-    short get_distance() const {return distance_;}
+    short get_distance() const {return distanceSource_;}
     Cell* get_prev() const {return prev_;}
-    bool get_enqueued() const {return enqueued_;}
+    short get_dest_distance() const {return distanceDest_;}
 
     QRectF boundingRect() const override; //adds clickable area to the object of the ui
     QPainterPath shape() const override; //allows us to draw standard shapes
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override; //allows us to add color to object we are drawing
     bool operator==(const Cell& c) const {return x_ == c.x_ && y_ == c.y_;}
-    bool operator()(const Cell& c1, const Cell& c2) const {return c1.distance_ < c2.distance_;}
-    bool operator<(const Cell& c) const {return distance_ < c.distance_;}
+    bool operator()(const Cell& c1, const Cell& c2) const {return c1.distanceSource_ < c2.distanceSource_;}
+    bool operator<(const Cell& c) const {return distanceSource_ < c.distanceSource_;}
 
 private:
     const static short width_ = 20;
     CellType type_;
     short x_;
     short y_;
-    short distance_;
+    short distanceSource_;
+    short distanceDest_;
     Cell* prev_;
-    bool enqueued_;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
@@ -68,5 +68,14 @@ public:
         return (a->get_distance() > b->get_distance());
     }
 };
+
+
+class Comparator2 {
+public:
+    bool operator()(const Cell* a , const Cell* b)
+    {
+        return(a->g)
+    }
+}
 
 #endif // CELL_H

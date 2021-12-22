@@ -95,6 +95,7 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
             if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall)
                 continue;
             i->set_cell_type(CellType::Visited);
+            i->set_prev(currCell);
             q.push(i);
         }
     }
@@ -148,4 +149,15 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
                 }
         }
             return false;
+}
+
+bool Grid::Astar(Cell &Source, Cell &dest)
+{
+    std::priority_queue<Cell*, std::vector<Cell*>, Comparator> q;
+    for(short i = 0; i < rows_; i++)
+        for(short j = 0; j < cols_; j++)
+        {   //ManhattanDistance
+            grid_[i][j].set_dest_distance(std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
+        }
+
 }

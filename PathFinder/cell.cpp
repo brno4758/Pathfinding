@@ -51,7 +51,7 @@ void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
         set_cell_type(CellType::Wall);
         update();
     }
-    else if(event->buttons() = Qt::RightButton && type_ == CellType::Wall)
+    else if(event->buttons() == Qt::RightButton && type_ == CellType::Wall)
     {
         set_cell_type(CellType::Unvisited);
         update();
