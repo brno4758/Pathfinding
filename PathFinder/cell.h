@@ -61,7 +61,7 @@ signals:
     void cell_selected(Cell& c);
 };
 
-class Comparator {
+class dijkstraComparator {
 public:
     bool operator()(const Cell* a, const Cell* b)
     {
@@ -70,12 +70,12 @@ public:
 };
 
 
-class Comparator2 {
+class aStarComparator {
 public:
     bool operator()(const Cell* a , const Cell* b)
     {
-        return(a->g)
+        return(a->get_distance() + a->get_dest_distance() > b->get_distance() + b->get_dest_distance());
     }
-}
+};
 
 #endif // CELL_H

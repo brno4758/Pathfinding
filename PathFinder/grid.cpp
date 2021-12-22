@@ -120,7 +120,7 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
     //So if the new distance was equal we would push the node onto the heap again
 
 
-    std::priority_queue<Cell*, std::vector<Cell*>, Comparator> q;
+    std::priority_queue<Cell*, std::vector<Cell*>, dijkstraComparator> q;
     q.push(&source);
     source.set_distance(0);
     source.set_prev(nullptr);
@@ -151,13 +151,40 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
             return false;
 }
 
-bool Grid::Astar(Cell &Source, Cell &dest)
+bool Grid::Astar(Cell &source, Cell &dest)
 {
-    std::priority_queue<Cell*, std::vector<Cell*>, Comparator> q;
     for(short i = 0; i < rows_; i++)
         for(short j = 0; j < cols_; j++)
         {   //ManhattanDistance
             grid_[i][j].set_dest_distance(std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
         }
+    std::priority_queue<Cell*, std::vector<Cell*>, aStarComparator> q;
+    q.push(&source);
+    source.set_distance(0);
+    source.set_prev(nullptr);
+    Cell* currCell = nullptr;
+    while(!q.empty())
+    {
+                Sleep(25);
+                currCell = q.top();
+                q.pop();
+                currCell->set_cell_type(CellType::Visited);
+                currCell->update();
+                QApplication::processEvents();
+                qDebug() << "My h value is from source is: " << currCell->get_distance() + currCell->get_dest_distance();
+                for(Cell*& i : get_neighbors(*currCell))
+                {
+                    if(i->get_cell_type() == CellType::Visited || //Visited Node
+                       i->get_cell_type() == CellType::Wall ||   //Wall Node
+                       i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
+                        continue;
 
+                    i->set_distance(currCell->get_distance() + distanceUnit);
+                    i->set_prev(currCell);
+                    q.push(i);
+                    if(*i == dest)
+                        return true;
+                }
+        }
+            return false;
 }

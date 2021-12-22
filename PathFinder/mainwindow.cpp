@@ -56,6 +56,7 @@ void MainWindow::on_cell_selected(Cell& c)
         source_->update();
         dest_ = nullptr;
     }
+    qDebug() << c.get_dest_distance();
 }
 
 void MainWindow::on_DFSButton_clicked()
@@ -115,8 +116,6 @@ void MainWindow::on_resetButton_clicked()
             grid_->get_cell(j,i)->set_cell_type(CellType::Unvisited);
             grid_->get_cell(j,i)->set_prev(c);
             grid_->get_cell(j,i)->set_distance(SHRT_MAX);
-            grid_->get_cell(j,i)->set_enqueued(false);
-
         }
     scene->update();
 }
@@ -132,6 +131,27 @@ void MainWindow::on_DijkstraButton_clicked()
         return;
     }
     grid_->dijkstras(*source_, *dest_);
+    Cell* crawler = dest_;
+    while(crawler != nullptr)
+    {
+        Sleep(50);
+        crawler->set_cell_type(CellType::Path);
+        crawler->update();
+        QApplication::processEvents();
+        crawler = crawler->get_prev();
+    }
+}
+
+void MainWindow::on_AStarButton_clicked()
+{
+    if(!source_ || !dest_)
+    {
+        QMessageBox error;
+        error.setText("Must have both a source and destination cell selected");
+        error.exec();
+        return;
+    }
+    grid_->Astar(*source_, *dest_);
     Cell* crawler = dest_;
     while(crawler != nullptr)
     {
