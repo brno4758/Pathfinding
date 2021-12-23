@@ -37,6 +37,7 @@ public:
     static short get_width() {return width_;}
     short get_distance() const {return distanceSource_;}
     Cell* get_prev() const {return prev_;}
+
     short get_dest_distance() const {return distanceDest_;}
 
     QRectF boundingRect() const override; //adds clickable area to the object of the ui

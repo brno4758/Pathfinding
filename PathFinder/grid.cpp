@@ -152,12 +152,10 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
 }
 
 bool Grid::Astar(Cell &source, Cell &dest)
-{
+{ //Somethin aint right
     for(short i = 0; i < rows_; i++)
         for(short j = 0; j < cols_; j++)
-        {   //ManhattanDistance
             grid_[i][j].set_dest_distance(std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
-        }
     std::priority_queue<Cell*, std::vector<Cell*>, aStarComparator> q;
     q.push(&source);
     source.set_distance(0);
@@ -171,12 +169,16 @@ bool Grid::Astar(Cell &source, Cell &dest)
                 currCell->set_cell_type(CellType::Visited);
                 currCell->update();
                 QApplication::processEvents();
-                qDebug() << "My h value is from source is: " << currCell->get_distance() + currCell->get_dest_distance();
+//                qDebug() << "My h value is from source is: " << currCell->get_distance() + currCell->get_dest_distance();
+                qDebug() << "My distance from dest is :" << currCell->get_dest_distance();
+                qDebug() << "My distance froms source is:" << currCell->get_distance();
+                qDebug() << "The sum is:" << currCell->get_distance() + currCell->get_dest_distance();
+                qDebug() << "--------------------------------";
                 for(Cell*& i : get_neighbors(*currCell))
                 {
                     if(i->get_cell_type() == CellType::Visited || //Visited Node
                        i->get_cell_type() == CellType::Wall ||   //Wall Node
-                       i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
+                       ( i->get_distance()+i->get_dest_distance() ) <= currCell->get_distance() + distanceUnit + currCell->get_dest_distance()) //Node is already relaxed
                         continue;
 
                     i->set_distance(currCell->get_distance() + distanceUnit);
