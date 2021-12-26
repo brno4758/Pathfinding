@@ -31,21 +31,18 @@ public:
     void set_prev(Cell* prev) {prev_ = prev;}
     void set_dest_distance(short dist) {distanceDest_ = dist;}
 
+    static short get_width() {return width_;}
     short get_x() const {return x_;}
     short get_y() const {return y_;}
     CellType get_cell_type() const {return type_;}
-    static short get_width() {return width_;}
     short get_distance() const {return distanceSource_;}
     Cell* get_prev() const {return prev_;}
-
     short get_dest_distance() const {return distanceDest_;}
 
     QRectF boundingRect() const override; //adds clickable area to the object of the ui
     QPainterPath shape() const override; //allows us to draw standard shapes
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override; //allows us to add color to object we are drawing
     bool operator==(const Cell& c) const {return x_ == c.x_ && y_ == c.y_;}
-    bool operator()(const Cell& c1, const Cell& c2) const {return c1.distanceSource_ < c2.distanceSource_;}
-    bool operator<(const Cell& c) const {return distanceSource_ < c.distanceSource_;}
 
 private:
     const static short width_ = 20;
@@ -70,12 +67,19 @@ public:
     }
 };
 
-
 class aStarComparator {
 public:
     bool operator()(const Cell* a , const Cell* b)
     {
         return(a->get_distance() + a->get_dest_distance() > b->get_distance() + b->get_dest_distance());
+    }
+};
+
+class greedyComparator {
+public:
+    bool operator()(const Cell* a, const Cell* b)
+    {
+        return(a->get_dest_distance() > b->get_dest_distance());
     }
 };
 

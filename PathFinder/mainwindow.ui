@@ -89,6 +89,19 @@
      <string>A*</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="greedyButton">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>630</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Greedy</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -96,7 +109,7 @@
      <x>0</x>
      <y>0</y>
      <width>1027</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

@@ -43,7 +43,6 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     painter->drawRect(x_+(x_*width_), y_+(y_*width_),width_,width_);
 }
 
-//bug where you can assign source and dest, then write them as walls, and search still happens
 void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(event->buttons() == Qt::RightButton && type_ == CellType::Unvisited)
@@ -59,5 +58,4 @@ void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
     else
         emit cell_selected(*this);
 }
-
 

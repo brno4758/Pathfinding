@@ -12,14 +12,12 @@ SOURCES += \
     cell.cpp \
     grid.cpp \
     main.cpp \
-    mainwindow.cpp \
-    minheap.cpp
+    mainwindow.cpp
 
 HEADERS += \
     cell.h \
     grid.h \
-    mainwindow.h \
-    minheap.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui

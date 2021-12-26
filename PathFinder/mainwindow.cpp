@@ -163,3 +163,24 @@ void MainWindow::on_AStarButton_clicked()
     }
 }
 
+void MainWindow::on_greedyButton_clicked()
+{
+    if(!source_ || !dest_)
+    {
+        QMessageBox error;
+        error.setText("Must have both a source and destination cell selected");
+        error.exec();
+        return;
+    }
+    grid_->greedy(*source_, *dest_);
+    Cell* crawler = dest_;
+    while(crawler != nullptr)
+    {
+        Sleep(50);
+        crawler->set_cell_type(CellType::Path);
+        crawler->update();
+        QApplication::processEvents();
+        crawler = crawler->get_prev();
+    }
+}
+
