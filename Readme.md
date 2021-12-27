@@ -1,0 +1,1 @@
+Pathfinder is a pathfinding algorithm built using C++ and Qt. Right now, it is still in development but the source code and Qt files are all held in the Pathfinder directory and can be launched using the Qt platform
