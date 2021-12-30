@@ -165,7 +165,24 @@ bool Grid::Astar(Cell &source, Cell &dest)
     Cell* currCell = nullptr;
     while(!q.empty())
     {
-
+        Sleep(20);
+        currCell = q.top();
+        q.pop();
+        currCell->set_cell_type(CellType::Visited);
+        currCell->update();
+        QApplication::processEvents();
+        for(Cell*& i : get_neighbors(*currCell))
+        {
+            if(i->get_cell_type() == CellType::Visited ||
+               i->get_cell_type() == CellType::Wall ||
+               i->get_distance() + i->get_dest_distance() <= currCell->get_distance() + distanceUnit + i->get_dest_distance())
+                continue;
+            i->set_distance(currCell->get_distance() + distanceUnit);
+            i->set_prev(currCell);
+            q.push(i);
+            if(*i == dest)
+                return true;
+        }
     }
     return false;
 }

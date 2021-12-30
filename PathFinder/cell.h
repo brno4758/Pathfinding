@@ -38,6 +38,7 @@ public:
     short get_distance() const {return distanceSource_;}
     Cell* get_prev() const {return prev_;}
     short get_dest_distance() const {return distanceDest_;}
+//    short get_heuristic() const {return distanceSource_ + distanceDest_;} this leads to overflow because distanceSource_ is set to SHRT_MAX on creation of each cell
 
     QRectF boundingRect() const override; //adds clickable area to the object of the ui
     QPainterPath shape() const override; //allows us to draw standard shapes
