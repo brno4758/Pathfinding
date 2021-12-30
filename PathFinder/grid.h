@@ -2,8 +2,8 @@
 #define GRID_H
 
 #include "cell.h"
-#include "minheap.h"
 #include <queue>
+#define distanceUnit 1
 
 class Grid
 {

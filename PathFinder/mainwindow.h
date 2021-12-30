@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "cell.h"
 #include "grid.h"
-#include "minheap.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
