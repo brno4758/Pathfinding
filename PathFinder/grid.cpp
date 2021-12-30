@@ -157,7 +157,8 @@ bool Grid::Astar(Cell &source, Cell &dest)
 { //Somethin aint right
     for(short i = 0; i < rows_; i++)
         for(short j = 0; j < cols_; j++)
-            grid_[i][j].set_dest_distance(std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
+            grid_[i][j].set_dest_distance
+                    (std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
     std::priority_queue<Cell*, std::vector<Cell*>, aStarComparator> q;
     q.push(&source);
     source.set_distance(0);
@@ -165,7 +166,30 @@ bool Grid::Astar(Cell &source, Cell &dest)
     Cell* currCell = nullptr;
     while(!q.empty())
     {
+        Sleep(25);
+        currCell = q.top();
+        q.pop();
 
+        qDebug() << "My distance from source is: " << currCell->get_distance();
+        qDebug() << "My distance from dest is: " << currCell->get_dest_distance();
+        qDebug() << "My heuristic is: " << currCell->get_heuristic();
+        qDebug() << "Am I already visited?: " << (currCell->get_cell_type() == CellType::Visited);
+        currCell->set_cell_type(CellType::Visited);
+        currCell->update();
+        QApplication::processEvents();
+        for(Cell*& i : get_neighbors(*currCell))
+        {
+            if(i->get_cell_type() == CellType::Visited || //Visited Node
+                    i->get_cell_type() == CellType::Wall ||   //Wall Node
+                    i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
+                continue;
+
+            i->set_distance(currCell->get_distance() + distanceUnit);
+            i->set_prev(currCell);
+            q.push(i);
+            if(*i == dest)
+                return true;
+        }
     }
     return false;
 }
