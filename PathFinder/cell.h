@@ -1,6 +1,6 @@
 #ifndef CELL_H
 #define CELL_H
-enum class CellType{Visited, Unvisited, Wall, Path, Source, Destination};
+enum class CellType{Visited, Unvisited, Wall, Path, Source, Destination, Frontier};
 
 #include <QColor>
 #include <QGraphicsItem>
@@ -9,12 +9,13 @@ enum class CellType{Visited, Unvisited, Wall, Path, Source, Destination};
 #include <vector>
 #include <queue> //WRITE YOUR OWN IMPLEMENTATION LAZY!
 
-const QColor wallColor(0,0,0);
-const QColor visitedColor(255,0,0);
-const QColor unvisitedColor(255,255,255);
-const QColor pathColor(0,255,0);
-const QColor sourceColor(0,0,255);
-const QColor destColor(0,0,255);
+const QColor wallColor("Black");
+const QColor visitedColor("Red");
+const QColor unvisitedColor("White");
+const QColor pathColor("Green");
+const QColor sourceColor("Blue");
+const QColor destColor("Blue");
+const QColor frontierColor("Magenta");
 
 
 //In order to color the frontier, just color the queue as they are placed in and decolor when it comes out
@@ -29,6 +30,7 @@ public:
     void set_x(short x) {x_ = x;}
     void set_y(short y) {y_ = y;}
     void set_cell_type(CellType type) {type_ = type;}
+    void set_and_draw(CellType type) {type_ = type; update(); QApplication::processEvents();}
     void set_distance(short dist) {distanceSource_ = dist;}
     void set_prev(Cell* prev) {prev_ = prev;}
     void set_dest_distance(short dist) {distanceDest_ = dist;}

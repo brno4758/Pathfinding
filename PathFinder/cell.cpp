@@ -37,6 +37,9 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     case(CellType::Destination):
         painter->setBrush(destColor);
         break;
+    case(CellType::Frontier):
+        painter->setBrush(frontierColor);
+        break;
     default:
         painter->setBrush(unvisitedColor);
     }

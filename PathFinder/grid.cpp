@@ -63,6 +63,7 @@ bool Grid::depth_first_search(Cell& source, Cell& dest)
     bool flag = false;
     for(Cell*& i : get_neighbors(source))
     {
+        //There isn't really a 'frontier' for DFS because we are calling it recursively
         if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall)
             continue;
         i->set_prev(&source);
@@ -83,20 +84,20 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
         Cell* currCell = q.front();
         q.pop();
 
-        currCell->set_cell_type(CellType::Visited);
-        currCell->update();
-        QApplication::processEvents();
+        currCell->set_and_draw(CellType::Visited);
         Sleep(50);
         if(*currCell == dest)
             return true;
 
         for(Cell*& i : get_neighbors(*currCell))
         {
-            if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall)
+            if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall || i->get_cell_type() == CellType::Frontier)
                 continue;
-            i->set_cell_type(CellType::Visited);
             i->set_prev(currCell);
+            i->set_and_draw(CellType::Frontier);
             q.push(i);
+            if(*i == dest)
+                return true;
         }
     }
     return false;
@@ -133,9 +134,7 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
 
         qDebug() << "My distance from source is: " << currCell->get_distance();
         qDebug() << "Am I already visited?: " << (currCell->get_cell_type() == CellType::Visited);
-        currCell->set_cell_type(CellType::Visited);
-        currCell->update();
-        QApplication::processEvents();
+        currCell->set_and_draw(CellType::Visited);
         for(Cell*& i : get_neighbors(*currCell))
         {
             if(i->get_cell_type() == CellType::Visited || //Visited Node
@@ -146,6 +145,7 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
             i->set_distance(currCell->get_distance() + distanceUnit);
             i->set_prev(currCell);
             q.push(i);
+            i->set_and_draw(CellType::Frontier);
             if(*i == dest)
                 return true;
         }
@@ -174,13 +174,7 @@ bool Grid::Astar(Cell &source, Cell &dest)
         currCell = q.top();
         q.pop();
 
-        qDebug() << "My distance from source is: " << currCell->get_distance();
-        qDebug() << "My distance from dest is: " << currCell->get_dest_distance();
-        qDebug() << "My heuristic is: " << currCell->get_distance() + currCell->get_dest_distance();
-        qDebug() << "Am I already visited?: " << (currCell->get_cell_type() == CellType::Visited);
-        currCell->set_cell_type(CellType::Visited);
-        currCell->update();
-        QApplication::processEvents();
+        currCell->set_and_draw(CellType::Visited);
         for(Cell*& i : get_neighbors(*currCell))
         {
             if(i->get_cell_type() == CellType::Visited || //Visited Node
@@ -193,6 +187,8 @@ bool Grid::Astar(Cell &source, Cell &dest)
             i->set_distance(currCell->get_distance() + distanceUnit);
             i->set_prev(currCell);
             q.push(i);
+            i->set_and_draw(CellType::Frontier);
+
             if(*i == dest)
                 return true;
         }
@@ -219,9 +215,7 @@ bool Grid::greedy(Cell& source, Cell& dest)
             continue;
         qDebug() << "I am looking at cell:" << currCell->get_x() << "," << currCell->get_y();
         qDebug() << "Is it visited?:" << (currCell->get_cell_type() == CellType::Visited);
-        currCell->set_cell_type(CellType::Visited);
-        currCell->update();
-        QApplication::processEvents();
+        currCell->set_and_draw(CellType::Visited);
         for(Cell*& i : get_neighbors(*currCell))
         {
             if(i->get_cell_type() == CellType::Visited || //Visited Node
@@ -229,6 +223,7 @@ bool Grid::greedy(Cell& source, Cell& dest)
                 continue;
             i->set_prev(currCell);
             q.push(i);
+            i->set_and_draw(CellType::Frontier);
             if(*i == dest)
                 return true;
         }
