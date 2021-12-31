@@ -91,7 +91,9 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
 
         for(Cell*& i : get_neighbors(*currCell))
         {
-            if(i->get_cell_type() == CellType::Visited || i->get_cell_type() == CellType::Wall || i->get_cell_type() == CellType::Frontier)
+            if(i->get_cell_type() == CellType::Visited ||
+               i->get_cell_type() == CellType::Wall ||
+               i->get_cell_type() == CellType::Frontier)
                 continue;
             i->set_prev(currCell);
             i->set_and_draw(CellType::Frontier);
@@ -136,9 +138,10 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
         currCell->set_and_draw(CellType::Visited);
         for(Cell*& i : get_neighbors(*currCell))
         {
+            //We dont check for Frontier here incase we find a shorter path to it
             if(i->get_cell_type() == CellType::Visited || //Visited Node
-                    i->get_cell_type() == CellType::Wall ||   //Wall Node
-                    i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
+               i->get_cell_type() == CellType::Wall ||  //Wall Node
+               i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
                 continue;
 
             i->set_distance(currCell->get_distance() + distanceUnit);
@@ -177,8 +180,8 @@ bool Grid::Astar(Cell &source, Cell &dest)
         for(Cell*& i : get_neighbors(*currCell))
         {
             if(i->get_cell_type() == CellType::Visited || //Visited Node
-                    i->get_cell_type() == CellType::Wall ||   //Wall Node
-                    i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
+               i->get_cell_type() == CellType::Wall ||   //Wall Node
+               i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
                 continue;
 	    //we calculate the distance from source as we go
 	    //and using this calculation + the pre-calculated distance from goal...
@@ -214,11 +217,14 @@ bool Grid::greedy(Cell& source, Cell& dest)
             continue;
 
         currCell->set_and_draw(CellType::Visited);
+        //We check for frontier here because we are only basing our search on a pre-determined heuristic, no reason to recheck a frontier
         for(Cell*& i : get_neighbors(*currCell))
         {
             if(i->get_cell_type() == CellType::Visited || //Visited Node
-               i->get_cell_type() == CellType::Wall)   //Wall Node
+               i->get_cell_type() == CellType::Wall ||   //Wall Node
+               i->get_cell_type() == CellType::Frontier)
                 continue;
+
             i->set_prev(currCell);
             q.push(i);
             i->set_and_draw(CellType::Frontier);
