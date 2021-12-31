@@ -176,7 +176,7 @@ bool Grid::Astar(Cell &source, Cell &dest)
 
         qDebug() << "My distance from source is: " << currCell->get_distance();
         qDebug() << "My distance from dest is: " << currCell->get_dest_distance();
-        qDebug() << "My heuristic is: " << currCell->get_distance() + currCell->get_dest_distance();
+        qDebug() << "My heuristic is: " << currCell->get_heuristic();
         qDebug() << "Am I already visited?: " << (currCell->get_cell_type() == CellType::Visited);
         currCell->set_cell_type(CellType::Visited);
         currCell->update();
@@ -187,9 +187,7 @@ bool Grid::Astar(Cell &source, Cell &dest)
                     i->get_cell_type() == CellType::Wall ||   //Wall Node
                     i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
                 continue;
-	    //we calculate the distance from source as we go
-	    //and using this calculation + the pre-calculated distance from goal...
-	    //is how we determine the order in which cells are inserted into the priority queue
+
             i->set_distance(currCell->get_distance() + distanceUnit);
             i->set_prev(currCell);
             q.push(i);
