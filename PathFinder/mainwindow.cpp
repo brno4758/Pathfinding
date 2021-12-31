@@ -75,9 +75,7 @@ void MainWindow::on_DFSButton_clicked()
     while(crawler != nullptr)
     {
         Sleep(50);
-        crawler->set_cell_type(CellType::Path);
-        crawler->update();
-        QApplication::processEvents();
+        crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }
 }
@@ -98,9 +96,7 @@ void MainWindow::on_BFSButton_clicked()
     while(crawler != nullptr)
     {
         Sleep(50);
-        crawler->set_cell_type(CellType::Path);
-        crawler->update();
-        QApplication::processEvents();
+        crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }
 }
@@ -135,9 +131,7 @@ void MainWindow::on_DijkstraButton_clicked()
     while(crawler != nullptr)
     {
         Sleep(50);
-        crawler->set_cell_type(CellType::Path);
-        crawler->update();
-        QApplication::processEvents();
+        crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }
 }
@@ -156,9 +150,7 @@ void MainWindow::on_AStarButton_clicked()
     while(crawler != nullptr)
     {
         Sleep(50);
-        crawler->set_cell_type(CellType::Path);
-        crawler->update();
-        QApplication::processEvents();
+        crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }
 }
@@ -177,9 +169,7 @@ void MainWindow::on_greedyButton_clicked()
     while(crawler != nullptr)
     {
         Sleep(50);
-        crawler->set_cell_type(CellType::Path);
-        crawler->update();
-        QApplication::processEvents();
+        crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }
 }

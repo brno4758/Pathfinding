@@ -132,8 +132,7 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
         currCell = q.top();
         q.pop();
 
-        qDebug() << "My distance from source is: " << currCell->get_distance();
-        qDebug() << "Am I already visited?: " << (currCell->get_cell_type() == CellType::Visited);
+
         currCell->set_and_draw(CellType::Visited);
         for(Cell*& i : get_neighbors(*currCell))
         {
@@ -213,8 +212,7 @@ bool Grid::greedy(Cell& source, Cell& dest)
         q.pop();
         if(currCell->get_cell_type() == CellType::Visited)
             continue;
-        qDebug() << "I am looking at cell:" << currCell->get_x() << "," << currCell->get_y();
-        qDebug() << "Is it visited?:" << (currCell->get_cell_type() == CellType::Visited);
+
         currCell->set_and_draw(CellType::Visited);
         for(Cell*& i : get_neighbors(*currCell))
         {

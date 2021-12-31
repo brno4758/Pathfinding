@@ -39,9 +39,10 @@ public:
     short get_x() const {return x_;}
     short get_y() const {return y_;}
     CellType get_cell_type() const {return type_;}
-    short get_distance() const {return distanceSource_;}
     Cell* get_prev() const {return prev_;}
+    short get_distance() const {return distanceSource_;}
     short get_dest_distance() const {return distanceDest_;}
+    int get_f_score() const {return distanceDest_ + distanceSource_;}
 
     QRectF boundingRect() const override; //adds clickable area to the object of the ui
     QPainterPath shape() const override; //allows us to draw standard shapes
@@ -75,7 +76,7 @@ class aStarComparator {
 public:
     bool operator()(const Cell* a , const Cell* b)
     {
-        return(a->get_distance() + a->get_dest_distance()  > b->get_distance() + b->get_dest_distance());
+        return(a->get_f_score()  > b->get_f_score());
     }
 };
 
