@@ -154,11 +154,15 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
 }
 
 bool Grid::Astar(Cell &source, Cell &dest)
-{ //Somethin aint right
+{
+    //Calculate distance from dest for all cells
     for(short i = 0; i < rows_; i++)
         for(short j = 0; j < cols_; j++)
             grid_[i][j].set_dest_distance
                     (std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
+
+    //the q is based off of distance from source + distance from goal
+    //this takes care of calcualting the total value to determine which cell we visit next
     std::priority_queue<Cell*, std::vector<Cell*>, aStarComparator> q;
     q.push(&source);
     source.set_distance(0);
@@ -229,5 +233,3 @@ bool Grid::greedy(Cell& source, Cell& dest)
     }
     return false;
 }
-
-//instead of priorty queue, just call it recursively on the current closest neighbor

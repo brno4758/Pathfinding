@@ -16,6 +16,8 @@ const QColor pathColor(0,255,0);
 const QColor sourceColor(0,0,255);
 const QColor destColor(0,0,255);
 
+
+//In order to color the frontier, just color the queue as they are placed in and decolor when it comes out
 class Cell : public QObject, public QGraphicsItem
 {
     Q_OBJECT
