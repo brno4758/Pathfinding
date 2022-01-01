@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
             scene->addItem(grid_->get_cell(j,i));
             connect(grid_->get_cell(j,i), &Cell::cell_selected, this, &MainWindow::on_cell_selected);
         }
+    srand(time(NULL));
 }
 
 MainWindow::~MainWindow()
@@ -109,9 +110,11 @@ void MainWindow::on_resetButton_clicked()
     for(short i = 0; i < grid_->get_num_rows(); i++)
         for(short j = 0; j < grid_->get_num_cols(); j++)
         {
-            grid_->get_cell(j,i)->set_cell_type(CellType::Unvisited);
-            grid_->get_cell(j,i)->set_prev(c);
-            grid_->get_cell(j,i)->set_distance(SHRT_MAX);
+            c = grid_->get_cell(j,i);
+            c->set_cell_type(CellType::Unvisited);
+            c->set_prev(c);
+            c->set_distance(SHRT_MAX);
+            c->set_dest_distance(0);
         }
     scene->update();
 }
@@ -172,5 +175,19 @@ void MainWindow::on_greedyButton_clicked()
         crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }
+}
+
+
+void MainWindow::on_randomButton_clicked()
+{
+    short rows = grid_->get_num_rows();
+    short cols = grid_->get_num_cols();
+    for(short i = 0; i < rows; i++)
+        for(short j = 0; j < cols; j++)
+            if(rand() % 3)
+            {
+                grid_->get_cell(j,i)->set_cell_type(CellType::Wall);
+            }
+    scene->update();
 }
 

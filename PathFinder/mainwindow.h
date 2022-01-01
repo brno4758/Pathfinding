@@ -32,5 +32,6 @@ private slots:
     void on_DijkstraButton_clicked();
     void on_AStarButton_clicked();
     void on_greedyButton_clicked();
+    void on_randomButton_clicked();
 };
 #endif // MAINWINDOW_H

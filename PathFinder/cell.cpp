@@ -44,10 +44,12 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         painter->setBrush(unvisitedColor);
     }
     painter->drawRect(x_+(x_*width_), y_+(y_*width_),width_,width_);
+    //painter->drawText(x_+(x_*width_), y_+(y_*width_), std::to_string(distanceDest_).c_str());
 }
 
 void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    qDebug() << "My Dest Distance is :" << distanceDest_;
     if(event->buttons() == Qt::RightButton && type_ == CellType::Unvisited)
     {
         set_cell_type(CellType::Wall);

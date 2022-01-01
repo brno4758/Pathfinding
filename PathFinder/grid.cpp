@@ -1,5 +1,5 @@
 #include "grid.h"
-
+int size_ = 0;
 Grid::Grid(short rows, short cols) : rows_(rows), cols_(cols), grid_(new Cell*[rows_])
 {
     for(short i = 0; i < rows_; i++)
@@ -107,8 +107,6 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
 
 bool Grid::dijkstras(Cell& source, Cell& dest)
 {
-    //Could represent inQueue_ as an array instead of a bool carried around by each cell
-    //If this ends up being only algo that uses inQueue_, switch to the array of bools
 
     //Maybe I can just do one big sweep of all cells, calculating their distance from source and pushing them onto the heap, then uusing that to traverse
     //No because the point is to relax the edges as we go, not all at once
@@ -185,7 +183,7 @@ bool Grid::Astar(Cell &source, Cell &dest)
                 continue;
 	    //we calculate the distance from source as we go
 	    //and using this calculation + the pre-calculated distance from goal...
-	    //is how we determine the order in which cells are inserted into the priority queue
+        //...is how we determine the order in which cells are inserted into the priority queue
             i->set_distance(currCell->get_distance() + distanceUnit);
             i->set_prev(currCell);
             q.push(i);
@@ -213,8 +211,6 @@ bool Grid::greedy(Cell& source, Cell& dest)
         Sleep(25);
         currCell = q.top();
         q.pop();
-        if(currCell->get_cell_type() == CellType::Visited)
-            continue;
 
         currCell->set_and_draw(CellType::Visited);
         //We check for frontier here because we are only basing our search on a pre-determined heuristic, no reason to recheck a frontier
@@ -222,11 +218,12 @@ bool Grid::greedy(Cell& source, Cell& dest)
         {
             if(i->get_cell_type() == CellType::Visited || //Visited Node
                i->get_cell_type() == CellType::Wall ||   //Wall Node
-               i->get_cell_type() == CellType::Frontier)
+               i->get_cell_type() == CellType::Frontier)  //Frontier Node
                 continue;
 
             i->set_prev(currCell);
             q.push(i);
+            qDebug() << "Size is :" << size_;
             i->set_and_draw(CellType::Frontier);
             if(*i == dest)
                 return true;
