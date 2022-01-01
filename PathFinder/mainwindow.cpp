@@ -186,7 +186,7 @@ void MainWindow::on_randomButton_clicked()
     short cols = grid_->get_num_cols();
     for(short i = 0; i < rows; i++)
         for(short j = 0; j < cols; j++)
-            if(rand() % 10 == 1)
+            if(rand() % 4 == 1)
             {
                 grid_->get_cell(j,i)->set_cell_type(CellType::Wall);
             }

@@ -1,5 +1,5 @@
 #include "grid.h"
-int size_ = 0;
+#define DELAY 5
 Grid::Grid(short rows, short cols) : rows_(rows), cols_(cols), grid_(new Cell*[rows_])
 {
     for(short i = 0; i < rows_; i++)
@@ -56,7 +56,7 @@ bool Grid::depth_first_search(Cell& source, Cell& dest)
     source.set_cell_type(CellType::Visited);
     source.update();
     QApplication::processEvents();
-    Sleep(50);
+    Sleep(DELAY);
     if(source == dest)
         return true;
 
@@ -85,7 +85,7 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
         q.pop();
 
         currCell->set_and_draw(CellType::Visited);
-        Sleep(50);
+        Sleep(DELAY);
         if(*currCell == dest)
             return true;
 
@@ -128,7 +128,7 @@ bool Grid::dijkstras(Cell& source, Cell& dest)
     Cell* currCell = nullptr;
     while(!q.empty())
     {
-        Sleep(25);
+        Sleep(DELAY);
         currCell = q.top();
         q.pop();
 
@@ -170,7 +170,7 @@ bool Grid::Astar(Cell &source, Cell &dest)
     Cell* currCell = nullptr;
     while(!q.empty())
     {
-        Sleep(25);
+        Sleep(DELAY);
         currCell = q.top();
         q.pop();
 
@@ -208,7 +208,7 @@ bool Grid::greedy(Cell& source, Cell& dest)
 
     while(!q.empty())
     {
-        Sleep(25);
+        Sleep(DELAY);
         currCell = q.top();
         q.pop();
 
@@ -223,7 +223,6 @@ bool Grid::greedy(Cell& source, Cell& dest)
 
             i->set_prev(currCell);
             q.push(i);
-            qDebug() << "Size is :" << size_;
             i->set_and_draw(CellType::Frontier);
             if(*i == dest)
                 return true;
