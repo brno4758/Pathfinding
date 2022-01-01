@@ -1,5 +1,5 @@
 #include "grid.h"
-#define DELAY 5
+#define DELAY 0
 Grid::Grid(short rows, short cols) : rows_(rows), cols_(cols), grid_(new Cell*[rows_])
 {
     for(short i = 0; i < rows_; i++)
@@ -105,7 +105,7 @@ bool Grid::breadth_first_search(Cell& source, Cell& dest)
     return false;
 }
 
-bool Grid::dijkstras(Cell& source, Cell& dest)
+bool Grid::dijkstra(Cell& source, Cell& dest)
 {
 
     //Maybe I can just do one big sweep of all cells, calculating their distance from source and pushing them onto the heap, then uusing that to traverse

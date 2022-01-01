@@ -70,7 +70,13 @@ void MainWindow::on_DFSButton_clicked()
         return;
     }
     ui->resetButton->setEnabled(false);
-    grid_->depth_first_search(*source_, *dest_);
+    if(!grid_->depth_first_search(*source_, *dest_))
+    {
+        QMessageBox failed;
+        failed.setText("No Path found");
+        failed.exec();
+        return;
+    }
     ui->resetButton->setEnabled(true);
     Cell* crawler = dest_;
     while(crawler != nullptr)
@@ -90,9 +96,18 @@ void MainWindow::on_BFSButton_clicked()
         error.exec();
         return;
     }
+
     ui->resetButton->setEnabled(false);
-    grid_->breadth_first_search(*source_, *dest_);
+
+    if(!grid_->breadth_first_search(*source_, *dest_))
+    {
+        QMessageBox failed;
+        failed.setText("No Path found");
+        failed.exec();
+    }
+
     ui->resetButton->setEnabled(true);
+
     Cell* crawler = dest_;
     while(crawler != nullptr)
     {
@@ -131,7 +146,13 @@ void MainWindow::on_DijkstraButton_clicked()
         error.exec();
         return;
     }
-    grid_->dijkstras(*source_, *dest_);
+    if(!grid_->dijkstra(*source_, *dest_))
+    {
+        QMessageBox failed;
+        failed.setText("No Path found");
+        failed.exec();
+
+    }
     Cell* crawler = dest_;
     while(crawler != nullptr)
     {
@@ -150,7 +171,13 @@ void MainWindow::on_AStarButton_clicked()
         error.exec();
         return;
     }
-    grid_->Astar(*source_, *dest_);
+    if(!grid_->Astar(*source_, *dest_))
+    {
+        QMessageBox failed;
+        failed.setText("No Path found");
+        failed.exec();
+
+    }
     Cell* crawler = dest_;
     while(crawler != nullptr)
     {
@@ -169,7 +196,13 @@ void MainWindow::on_greedyButton_clicked()
         error.exec();
         return;
     }
-    grid_->greedy(*source_, *dest_);
+    if(!grid_->greedy(*source_, *dest_))
+    {
+        QMessageBox failed;
+        failed.setText("No Path found");
+        failed.exec();
+
+    }
     Cell* crawler = dest_;
     while(crawler != nullptr)
     {

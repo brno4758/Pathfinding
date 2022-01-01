@@ -18,7 +18,7 @@ public:
 
     bool depth_first_search(Cell& source, Cell& dest);
     bool breadth_first_search(Cell& source, Cell& dest);
-    bool dijkstras(Cell& source, Cell& dest);
+    bool dijkstra(Cell& source, Cell& dest);
     bool Astar(Cell& source, Cell& dest);
     bool greedy(Cell& source, Cell& dest);
 
