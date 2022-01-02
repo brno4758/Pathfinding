@@ -23,6 +23,11 @@ private:
     Grid* grid_;
     Cell* source_;
     Cell* dest_;
+    short delay_;
+
+    void disable_ui();
+    void enable_ui();
+    void color_path();
 
 private slots:
     void on_cell_selected(Cell& c);

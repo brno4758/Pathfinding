@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1027</width>
-    <height>710</height>
+    <width>1031</width>
+    <height>759</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>1011</width>
-      <height>591</height>
+      <width>1010</width>
+      <height>590</height>
      </rect>
     </property>
    </widget>
@@ -105,7 +105,7 @@
    <widget class="QPushButton" name="randomButton">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>950</x>
       <y>0</y>
       <width>75</width>
       <height>24</height>
@@ -115,13 +115,29 @@
      <string>Random</string>
     </property>
    </widget>
+   <widget class="QSlider" name="delaySlider">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>680</y>
+      <width>361</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="singleStep">
+     <number>33</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1027</width>
+     <width>1031</width>
      <height>22</height>
     </rect>
    </property>

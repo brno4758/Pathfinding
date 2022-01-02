@@ -1,5 +1,5 @@
 #include "grid.h"
-#define DELAY 0
+#define DELAY 5
 Grid::Grid(short rows, short cols) : rows_(rows), cols_(cols), grid_(new Cell*[rows_])
 {
     for(short i = 0; i < rows_; i++)
