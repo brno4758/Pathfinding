@@ -8,6 +8,7 @@ enum class CellType{Visited, Unvisited, Wall, Path, Source, Destination, Frontie
 #include <QDebug>
 #include <vector>
 #include <queue> //WRITE YOUR OWN IMPLEMENTATION LAZY!
+#include <chrono>
 
 const QColor wallColor("Black");
 const QColor visitedColor("Red");

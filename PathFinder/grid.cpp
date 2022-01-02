@@ -1,5 +1,5 @@
 #include "grid.h"
-#define DELAY 5
+#define DELAY 0
 Grid::Grid(short rows, short cols) : rows_(rows), cols_(cols), grid_(new Cell*[rows_])
 {
     for(short i = 0; i < rows_; i++)
@@ -53,10 +53,8 @@ std::vector<Cell*> Grid::get_neighbors(Cell& c) const
 
 bool Grid::depth_first_search(Cell& source, Cell& dest)
 {
-    source.set_cell_type(CellType::Visited);
-    source.update();
-    QApplication::processEvents();
     Sleep(DELAY);
+    i->set_and_draw(CellType::Visited);
     if(source == dest)
         return true;
 

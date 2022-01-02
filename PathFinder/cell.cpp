@@ -49,7 +49,6 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "My Dest Distance is :" << distanceDest_;
     if(event->buttons() == Qt::RightButton && type_ == CellType::Unvisited)
     {
         set_cell_type(CellType::Wall);

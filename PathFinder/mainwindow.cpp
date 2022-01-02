@@ -59,7 +59,6 @@ void MainWindow::on_cell_selected(Cell& c)
         source_->update();
         dest_ = nullptr;
     }
-    qDebug() << c.get_dest_distance();
 }
 
 void MainWindow::on_DFSButton_clicked()
