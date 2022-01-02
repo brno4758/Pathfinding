@@ -118,6 +118,8 @@ bool Grid::dijkstra(Cell& source, Cell& dest)
     //Before it was just i->get_distance() < currCell->get_distance() + distanceUnit
     //So if the new distance was equal we would push the node onto the heap again
 
+    std::chrono::duration<double, std::milli> draw_time = std::chrono::duration<double, std::milli>::zero();
+    std::chrono::duration<double, std::milli> heap_time = std::chrono::duration<double, std::milli>::zero();
 
     std::priority_queue<Cell*, std::vector<Cell*>, dijkstraComparator> q;
     q.push(&source);
@@ -128,10 +130,16 @@ bool Grid::dijkstra(Cell& source, Cell& dest)
     {
         Sleep(DELAY);
         currCell = q.top();
-        q.pop();
+        auto begin = std::chrono::high_resolution_clock::now();
+            q.pop();
+        auto end = std::chrono::high_resolution_clock::now();
+        heap_time += end - begin;
 
+        begin = std::chrono::high_resolution_clock::now();
+            currCell->set_and_draw(CellType::Visited);
+        end = std::chrono::high_resolution_clock::now();
+        draw_time += end - begin;
 
-        currCell->set_and_draw(CellType::Visited);
         for(Cell*& i : get_neighbors(*currCell))
         {
             //We dont check for Frontier here incase we find a shorter path to it
@@ -140,14 +148,30 @@ bool Grid::dijkstra(Cell& source, Cell& dest)
                i->get_distance() <= currCell->get_distance() + distanceUnit) //Node is already relaxed
                 continue;
 
+
             i->set_distance(currCell->get_distance() + distanceUnit);
             i->set_prev(currCell);
+
+            begin = std::chrono::high_resolution_clock::now();
             q.push(i);
+            end = std::chrono::high_resolution_clock::now();
+            heap_time += end-begin;
+
+            begin = std::chrono::high_resolution_clock::now();
             i->set_and_draw(CellType::Frontier);
+            end = std::chrono::high_resolution_clock::now();
+            draw_time += end - begin;
+
             if(*i == dest)
+            {
+                qDebug() << "Total draw_time : " << draw_time.count() << "ms";
+                qDebug() << "Total heap_time : " << heap_time.count() << "ms";
                 return true;
+            }
         }
     }
+    qDebug() << "Total draw_time : " << draw_time.count() << "ms";
+    qDebug() << "Total heap_time : " << heap_time.count() << "ms";
     return false;
 }
 
