@@ -54,7 +54,7 @@ std::vector<Cell*> Grid::get_neighbors(Cell& c) const
 bool Grid::depth_first_search(Cell& source, Cell& dest)
 {
     Sleep(DELAY);
-    i->set_and_draw(CellType::Visited);
+    source.set_and_draw(CellType::Visited);
     if(source == dest)
         return true;
 
