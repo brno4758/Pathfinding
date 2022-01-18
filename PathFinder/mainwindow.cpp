@@ -41,6 +41,7 @@ void MainWindow::on_cell_selected(Cell& c)
     if(!source_){
         source_ = &c;
         source_->set_cell_type(CellType::Source);
+        source_->set_prev(nullptr);
         source_->update();
     }
     else if(!dest_){
@@ -56,6 +57,7 @@ void MainWindow::on_cell_selected(Cell& c)
 
         source_ = &c;
         source_->set_cell_type(CellType::Source);
+        source_->set_prev(nullptr);
         source_->update();
         dest_ = nullptr;
     }
@@ -146,6 +148,8 @@ void MainWindow::on_AStarButton_clicked()
         return;
     }
 
+    //An exception can be thronw between disable and enable ui
+    //Should tie this functionality to an object, whose constructor call enable_ui and destructor calls disable_ui
     disable_ui();
     if(grid_->Astar(*source_, *dest_))
     {

@@ -24,6 +24,7 @@ public:
 
     Grid() = delete;
 private:
+    void set_heuristic(Cell& dest);
     const short rows_;
     const short cols_;
     Cell** grid_;

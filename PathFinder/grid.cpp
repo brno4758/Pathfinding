@@ -1,5 +1,5 @@
 #include "grid.h"
-#define DELAY 0
+#define DELAY 100
 Grid::Grid(short rows, short cols) : rows_(rows), cols_(cols), grid_(new Cell*[rows_])
 {
     for(short i = 0; i < rows_; i++)
@@ -177,11 +177,7 @@ bool Grid::dijkstra(Cell& source, Cell& dest)
 
 bool Grid::Astar(Cell &source, Cell &dest)
 {
-    //Calculate distance from dest for all cells
-    for(short i = 0; i < rows_; i++)
-        for(short j = 0; j < cols_; j++)
-            grid_[i][j].set_dest_distance
-                    (std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
+ set_heuristic(dest);
 
     //the q is based off of distance from source + distance from goal
     //this takes care of calcualting the total value to determine which cell we visit next
@@ -220,6 +216,8 @@ bool Grid::Astar(Cell &source, Cell &dest)
 
 bool Grid::greedy(Cell& source, Cell& dest)
 {
+    set_heuristic(dest);
+    //Calculate distance from dest for all cells
     for(short i = 0; i < rows_; i++)
         for(short j = 0; j < cols_; j++)
             grid_[i][j].set_dest_distance(std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
@@ -251,4 +249,12 @@ bool Grid::greedy(Cell& source, Cell& dest)
         }
     }
     return false;
+}
+
+void Grid::set_heuristic(Cell& dest) //Maybe we can reduce initial workload by only calculating the heuristic when we need it, instead of calculating it for everything
+{
+    for(short i = 0; i < rows_; i++)
+        for(short j = 0; j < cols_; j++)
+            grid_[i][j].set_dest_distance
+                    (std::abs(dest.get_x() - grid_[i][j].get_x()) + std::abs(dest.get_y() - grid_[i][j].get_y()));
 }

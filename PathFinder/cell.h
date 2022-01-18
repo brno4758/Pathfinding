@@ -25,8 +25,9 @@ class Cell : public QObject, public QGraphicsItem
     Q_OBJECT
 
 public:
-    Cell() : type_(CellType::Unvisited), x_(0), y_(0), distanceSource_(SHRT_MAX), distanceDest_(0), prev_(nullptr) {};
     Cell(short x, short y) : type_(CellType::Unvisited), x_(x), y_(y), distanceSource_(SHRT_MAX), distanceDest_(0), prev_(nullptr) {};
+    Cell() : Cell(0,0) {};
+
 
     void set_x(short x) {x_ = x;}
     void set_y(short y) {y_ = y;}
@@ -77,7 +78,11 @@ class aStarComparator {
 public:
     bool operator()(const Cell* a , const Cell* b)
     {
-        return(a->get_f_score()  > b->get_f_score());
+        return(a->get_f_score() >= b->get_f_score());
+                                                      //A Strict Weak Ordering is a Binary Predicate that compares two objects, returning true if the first precedes the second.
+                                                      //So if a>=b, a comes before b, meaning we actually do prioritize the newer nodes.
+                                                      //If we insert new element b, and we compare it to a whose value is the same, then we keep b at the closer point to the top of the priority queue
+
     }
 };
 
