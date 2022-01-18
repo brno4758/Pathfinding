@@ -148,6 +148,8 @@ void MainWindow::on_AStarButton_clicked()
         return;
     }
 
+    //An exception can be thronw between disable and enable ui
+    //Should tie this functionality to an object, whose constructor call enable_ui and destructor calls disable_ui
     disable_ui();
     if(grid_->Astar(*source_, *dest_))
     {
@@ -250,7 +252,6 @@ void MainWindow::color_path()
     while(crawler != nullptr)
     {
         Sleep(50);
-        qDebug() << crawler->get_x() << "," << crawler->get_y();
         crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }

@@ -79,6 +79,10 @@ public:
     bool operator()(const Cell* a , const Cell* b)
     {
         return(a->get_f_score() >= b->get_f_score());
+                                                      //A Strict Weak Ordering is a Binary Predicate that compares two objects, returning true if the first precedes the second.
+                                                      //So if a>=b, a comes before b, meaning we actually do prioritize the newer nodes.
+                                                      //If we insert new element b, and we compare it to a whose value is the same, then we keep b at the closer point to the top of the priority queue
+
     }
 };
 
