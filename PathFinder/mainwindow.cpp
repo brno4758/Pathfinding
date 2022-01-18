@@ -41,6 +41,7 @@ void MainWindow::on_cell_selected(Cell& c)
     if(!source_){
         source_ = &c;
         source_->set_cell_type(CellType::Source);
+        source_->set_prev(nullptr);
         source_->update();
     }
     else if(!dest_){
@@ -56,6 +57,7 @@ void MainWindow::on_cell_selected(Cell& c)
 
         source_ = &c;
         source_->set_cell_type(CellType::Source);
+        source_->set_prev(nullptr);
         source_->update();
         dest_ = nullptr;
     }
@@ -248,6 +250,7 @@ void MainWindow::color_path()
     while(crawler != nullptr)
     {
         Sleep(50);
+        qDebug() << crawler->get_x() << "," << crawler->get_y();
         crawler->set_and_draw(CellType::Path);
         crawler = crawler->get_prev();
     }

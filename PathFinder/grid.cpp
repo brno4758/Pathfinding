@@ -1,5 +1,5 @@
 #include "grid.h"
-#define DELAY 0
+#define DELAY 100
 Grid::Grid(short rows, short cols) : rows_(rows), cols_(cols), grid_(new Cell*[rows_])
 {
     for(short i = 0; i < rows_; i++)
@@ -68,6 +68,7 @@ bool Grid::depth_first_search(Cell& source, Cell& dest)
         flag = depth_first_search(*i, dest);
         if(flag)
             break;
+        qDebug() << "Here";
     }
     return flag;
 }
